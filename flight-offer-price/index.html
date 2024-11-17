@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Flight Search</title>
+  </head>
+  <body>
+    <div class="container">
+      <form class="search-form" id="flightSearchForm">
+        <div class="trip-type">
+          <div class="radio-group">
+            <label class="radio-button active">
+              <input type="radio" name="tripType" value="oneWay" checked />
+              One Way
+            </label>
+            <label class="radio-button">
+              <input type="radio" name="tripType" value="roundTrip" disabled />
+              Round Trip
+            </label>
+            <label class="radio-button">
+              <input type="radio" name="tripType" value="multiCity" disabled />
+              Multi City
+            </label>
+          </div>
+        </div>
+
+        <div class="search-options">
+          <div class="location-input">
+            <input
+              type="text"
+              class="location-field"
+              id="fromLocation"
+              placeholder="From (Airport Code)"
+              readonly
+            />
+          </div>
+
+          <div class="swap-button" id="swapLocations">↔</div>
+
+          <div class="location-input">
+            <input
+              type="text"
+              class="location-field"
+              id="toLocation"
+              placeholder="To (Airport Code)"
+              readonly
+            />
+          </div>
+
+          <div class="location-input">
+            <input
+              type="text"
+              class="date-picker"
+              id="departureDate"
+              readonly
+            />
+            <div class="calendar-dropdown" id="calendarDropdown">
+              <div class="calendar-header">
+                <button class="calendar-nav" id="prevMonth">←</button>
+                <span id="currentMonth">September 2023</span>
+                <button class="calendar-nav" id="nextMonth">→</button>
+              </div>
+              <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <div class="location-input">
+            <div class="traveller-selector" id="travellerSelector">
+              <button type="button" class="location-field" id="travellerButton">
+                1 Traveller
+              </button>
+              <div class="dropdown" id="travellerDropdown">
+                <div class="traveller-item">
+                  <div class="traveller-info">
+                    <div class="traveller-title">Adults</div>
+                    <div class="traveller-subtitle">
+                      Age 12 or older on date of departure
+                    </div>
+                  </div>
+                  <div class="number-input">
+                    <button type="button" class="number-button decrease">
+                      -
+                    </button>
+                    <span class="traveller-count">1</span>
+                    <button type="button" class="number-button increase">
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div class="traveller-item">
+                  <div class="traveller-info">
+                    <div class="traveller-title">Children</div>
+                    <div class="traveller-subtitle">
+                      Older than age 2 and younger than age 12 on date of
+                      departure
+                    </div>
+                  </div>
+                  <div class="number-input">
+                    <button type="button" class="number-button decrease">
+                      -
+                    </button>
+                    <span class="traveller-count">0</span>
+                    <button type="button" class="number-button increase">
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div class="traveller-item">
+                  <div class="traveller-info">
+                    <div class="traveller-title">Infants</div>
+                    <div class="traveller-subtitle">
+                      Age is less or equal to 2 on date of departure
+                    </div>
+                  </div>
+                  <div class="number-input">
+                    <button type="button" class="number-button decrease">
+                      -
+                    </button>
+                    <span class="traveller-count">0</span>
+                    <button type="button" class="number-button increase">
+                      +
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="done-button"
+                  id="travellerDoneButton"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Updated Cabin Selector HTML -->
+          <div class="location-input">
+            <div class="cabin-selector" id="cabinSelector">
+              <button type="button" class="location-field" id="cabinButton">
+                Economy
+              </button>
+              <div class="dropdown" id="cabinDropdown">
+                <div class="cabin-item" data-value="economy">
+                  <div class="cabin-info">
+                    <div class="cabin-title">Economy</div>
+                  </div>
+                  <input
+                    type="radio"
+                    name="cabinClass"
+                    value="ECONOMY"
+                    checked
+                    class="cabin-radio"
+                  />
+                </div>
+                <div class="cabin-item" data-value="premiumEconomy">
+                  <div class="cabin-info">
+                    <div class="cabin-title">Premium Economy</div>
+                  </div>
+                  <input
+                    type="radio"
+                    name="cabinClass"
+                    value="PREMIUM_ECONOMY"
+                    class="cabin-radio"
+                  />
+                </div>
+                <div class="cabin-item" data-value="business">
+                  <div class="cabin-info">
+                    <div class="cabin-title">Business</div>
+                  </div>
+                  <input
+                    type="radio"
+                    name="cabinClass"
+                    value="BUSINESS"
+                    class="cabin-radio"
+                  />
+                </div>
+                <div class="cabin-item" data-value="firstClass">
+                  <div class="cabin-info">
+                    <div class="cabin-title">First Class</div>
+                  </div>
+                  <input
+                    type="radio"
+                    name="cabinClass"
+                    value="FIRST"
+                    class="cabin-radio"
+                  />
+                </div>
+                <button type="button" class="done-button" id="cabinDoneButton">
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="search-button">Search Flights</button>
+      </form>
+    </div>
+  </body>
+</html>

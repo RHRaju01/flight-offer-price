@@ -1,0 +1,279 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.trip-type {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.radio-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #f0f0f0;
+}
+
+.radio-button input {
+  display: none;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.search-form {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.swap-button {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.location-field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 250px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  padding: 8px 0;
+}
+
+.dropdown.active {
+  display: block;
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  padding: 16px;
+  width: 380px;
+}
+
+.date-picker {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar-dropdown.active {
+  display: block;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-nav {
+  cursor: pointer;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  font-size: 1.2em;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.calendar-day {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.calendar-day:hover {
+  background-color: #f0f0f0;
+}
+
+.calendar-day.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.calendar-day.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.weekday-header {
+  font-weight: bold;
+  padding: 8px;
+  color: #666;
+}
+
+.traveller-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.traveller-item:hover {
+  background-color: #f5f5f5;
+}
+
+.traveller-info {
+  flex: 1;
+}
+
+.traveller-title {
+  font-weight: bold;
+}
+
+.traveller-subtitle {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.number-button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+}
+
+.cabin-types {
+  flex-direction: column;
+  margin: 12px;
+}
+
+.cabin-item,
+.traveller-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.cabin-item:last-child,
+.traveller-item:last-child {
+  border-bottom: none;
+}
+
+.cabin-item:hover {
+  background-color: #f5f5f5;
+}
+
+.cabin-info,
+.traveller-info {
+  flex: 1;
+}
+
+.cabin-title,
+.traveller-title {
+  font-weight: bold;
+}
+
+.cabin-radio {
+  width: 18px;
+  height: 18px;
+  margin-left: 10px;
+}
+
+.done-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.done-button:hover {
+  background: #0056b3;
+}
+
+.radio-button.active {
+  background: #007bff;
+  color: white;
+}
+
+.number-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.location-input {
+  flex: 1;
+  position: relative;
+}
+
+.search-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.search-button:hover {
+  background: #007bffe7;
+}

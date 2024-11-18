@@ -1,3 +1,7 @@
+"use strict";
+
+export let searchData;
+
 document.addEventListener("DOMContentLoaded", function () {
   // Calendar functionality
   const dateInput = document.getElementById("departureDate");
@@ -22,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const cabinItems = document.querySelectorAll(".cabin-item");
   const cabinDoneButton = document.getElementById("cabinDoneButton");
 
-  // Then define the resetForm function
   function resetForm() {
     // Reset location inputs
     fromLocation.value = "";
@@ -305,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       // Create search data object only if validation passes
-      const searchData = {
+      searchData = {
         originLocationCode: fromValue,
         destinationLocationCode: toValue,
         departureDate: dateValue,

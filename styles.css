@@ -12,28 +12,44 @@
 }
 
 .trip-type {
-  display: flex;
-  gap: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   margin-bottom: 20px;
+  /* width: 250px; */
+  width: 370px;
+}
+
+.radio-group {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 0;
 }
 
 .radio-button {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 12px;
   cursor: pointer;
-  background: #f0f0f0;
+  border-bottom: 1px solid #eee;
 }
 
-.radio-button input {
-  display: none;
+.radio-button:last-child {
+  border-bottom: none;
 }
 
-.radio-group {
-  display: flex;
-  gap: 20px;
+.radio-button:hover {
+  background-color: #f5f5f5;
+}
+
+.radio-button input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+}
+
+.radio-button.active {
+  background-color: #f5f5f5;
 }
 
 .search-form {
@@ -92,6 +108,7 @@
 }
 
 .date-picker {
+  width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -276,4 +293,101 @@
 
 .search-button:hover {
   background: #007bffe7;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .trip-type {
+    width: 100%;
+  }
+
+  .search-options {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .location-input {
+    width: 100%;
+  }
+
+  /* Adjust swap button to be vertical */
+  .swap-button {
+    transform: rotate(90deg);
+    padding: 10px;
+    margin: 10px auto;
+    height: 40px;
+  }
+
+  .calendar-dropdown {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .dropdown {
+    width: 100%;
+    max-width: none;
+  }
+
+  .radio-group {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .radio-button {
+    flex: 1;
+    min-width: 100px;
+    justify-content: center;
+  }
+
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .calendar-day {
+    padding: 6px;
+    font-size: 0.9em;
+  }
+
+  .weekday-header {
+    padding: 6px;
+    font-size: 0.9em;
+  }
+
+  .number-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .search-button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .radio-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .radio-button {
+    width: 100%;
+  }
+
+  .traveller-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .number-input {
+    align-self: flex-end;
+  }
 }

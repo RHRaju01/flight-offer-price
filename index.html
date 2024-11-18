@@ -3,16 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="script.js" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
+      type="module"
+      defer
+    ></script>
+    <script src="script.js" type="module" defer></script>
+    <script src="flight.js" type="module" defer></script>
     <link rel="stylesheet" href="styles.css" />
     <title>Flight Search</title>
   </head>
   <body>
     <div class="container">
+      <!-- User Query Handler Form -->
       <form class="search-form" id="flightSearchForm">
+        <!-- Trip Type Selection -->
         <div class="trip-type">
           <div class="radio-group">
-            <label class="radio-button active">
+            <label class="radio-button">
               <input type="radio" name="tripType" value="oneWay" checked />
               One Way
             </label>
@@ -28,6 +36,7 @@
         </div>
 
         <div class="search-options">
+          <!-- From Location / Origin -->
           <div class="location-input">
             <input
               type="text"
@@ -38,8 +47,10 @@
             />
           </div>
 
+          <!-- Swap Button -->
           <div class="swap-button" id="swapLocations">↔</div>
 
+          <!-- To Location / Destination -->
           <div class="location-input">
             <input
               type="text"
@@ -50,6 +61,7 @@
             />
           </div>
 
+          <!-- Date Picker -->
           <div class="location-input">
             <input
               type="text"
@@ -69,12 +81,14 @@
             </div>
           </div>
 
+          <!-- Traveller Selector -->
           <div class="location-input">
             <div class="traveller-selector" id="travellerSelector">
               <button type="button" class="location-field" id="travellerButton">
                 1 Traveller
               </button>
               <div class="dropdown" id="travellerDropdown">
+                <!-- Adults -->
                 <div class="traveller-item">
                   <div class="traveller-info">
                     <div class="traveller-title">Adults</div>
@@ -92,6 +106,7 @@
                     </button>
                   </div>
                 </div>
+                <!-- Children -->
                 <div class="traveller-item">
                   <div class="traveller-info">
                     <div class="traveller-title">Children</div>
@@ -110,6 +125,7 @@
                     </button>
                   </div>
                 </div>
+                <!-- Infants -->
                 <div class="traveller-item">
                   <div class="traveller-info">
                     <div class="traveller-title">Infants</div>
@@ -138,7 +154,7 @@
             </div>
           </div>
 
-          <!-- Updated Cabin Selector HTML -->
+          <!-- Cabin Selector -->
           <div class="location-input">
             <div class="cabin-selector" id="cabinSelector">
               <button type="button" class="location-field" id="cabinButton">
@@ -197,7 +213,6 @@
             </div>
           </div>
         </div>
-
         <button type="submit" class="search-button">Search Flights</button>
       </form>
     </div>

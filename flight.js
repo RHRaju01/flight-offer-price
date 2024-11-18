@@ -6,6 +6,7 @@ import { searchData, fromLocation, toLocation } from "./script.js";
 
 let flightResponse;
 
+// API key used here for demonstration purposes. Don't expose your production API key to public
 const clientId = "lYKNbtENrgAoP5c25WrTs2AknjxlXfiW";
 const clientSecret = "j3lEN0qQAVCJXxOT";
 
@@ -198,8 +199,8 @@ function handleFlightData(flightResponse) {
       const airlineName = flightDictionaries.carriers[airlineCode];
       const departureAirportCode =
         flight.itineraries[0].segments[0].departure.iataCode;
-      const arrivalAirportCode =
-        flight.itineraries[0].segments[1].arrival.iataCode;
+      // const arrivalAirportCode =
+      //   flight.itineraries[0].segments[1].arrival.iataCode;
       const totalPrice = flight.price.grandTotal;
       const priceCurrency = flight.price.currency;
       const departureTime = flight.itineraries[0].segments[0].departure.at;

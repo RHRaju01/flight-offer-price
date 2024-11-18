@@ -6,7 +6,6 @@ import { searchData, fromLocation, toLocation } from "./script.js";
 
 let flightResponse;
 
-// API key used here for demonstration purposes. Don't expose your production API key to public
 const clientId = "lYKNbtENrgAoP5c25WrTs2AknjxlXfiW";
 const clientSecret = "j3lEN0qQAVCJXxOT";
 
@@ -27,7 +26,7 @@ async function getAccessToken() {
     );
 
     const accessToken = responseToken.data.access_token;
-    // console.log("Access Token:", accessToken);
+    console.log("Access Token:", accessToken);
     return accessToken;
   } catch (error) {
     console.error(
@@ -59,7 +58,7 @@ async function getFlightOffers(accessToken) {
       }
     );
 
-    // console.log("Flight Offers:", flightResponse.data);
+    console.log("Flight Offers:", flightResponse.data);
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {
@@ -197,18 +196,26 @@ function handleFlightData(flightResponse) {
       // Extract flight data
       const airlineCode = flight.validatingAirlineCodes;
       const airlineName = flightDictionaries.carriers[airlineCode];
-      const departureAirportCode =
-        flight.itineraries[0].segments[0].departure.iataCode;
-      // const arrivalAirportCode =
-      //   flight.itineraries[0].segments[1].arrival.iataCode;
       const totalPrice = flight.price.grandTotal;
       const priceCurrency = flight.price.currency;
       const departureTime = flight.itineraries[0].segments[0].departure.at;
       const departureDate = flight.itineraries[0].segments[0].departure.at;
-      const arrivalTime = flight.itineraries[0].segments[0].arrival.at;
-      const arrivalDate = flight.itineraries[0].segments[0].arrival.at;
+      const segmentsArrival = flight.itineraries[0].segments;
+      const arrivalTime =
+        segmentsArrival[segmentsArrival.length - 1].arrival.at;
+      const arrivalDate =
+        segmentsArrival[segmentsArrival.length - 1].arrival.at;
       const flightDuration = flight.itineraries[0].duration;
-      const stopsLocation = flight.itineraries[0].segments[0].arrival.iataCode;
+      const numOfStops = flight.itineraries[0].segments.length;
+      const stopsLocationExtract = flight.itineraries[0].segments
+        .slice(0, -1)
+        .map((seg) => seg.arrival.iataCode);
+      const stopsLocation =
+        numOfStops === 1
+          ? "Non Stop"
+          : `${stopsLocationExtract.length} Stop${
+              stopsLocationExtract.length > 1 ? "s" : ""
+            } via ${stopsLocationExtract.join(", ")}`;
 
       // Create card HTML
       const cardHTML = `
@@ -229,7 +236,7 @@ function handleFlightData(flightResponse) {
                 flightDuration
               )}</div>
               <div class="arrow"></div>
-              <div class="stop-info">1 Stop via ${stopsLocation}</div>
+              <div class="stop-info">${stopsLocation}</div>
             </div>
             <div>
               <div class="arrive">Arrive</div>
@@ -252,6 +259,20 @@ function handleFlightData(flightResponse) {
 
       // Add the card to the container
       bookingCardsContainer.insertAdjacentHTML("beforeend", cardHTML);
+
+      // Console log for debugging
+      console.log(`Offer ${i + 1}:
+        Price: ${priceCurrency} ${totalPrice}
+        Flight Duration: ${formatDuration(flightDuration)}
+        Airline name: ${airlineName}
+        Departure Time: ${formatTime(departureTime)}
+        Departure Date: ${formatDate(departureDate)}
+        Departure Airport: ${toLocation.value}
+        Arrival Time: ${formatTime(arrivalTime)}
+        Arrival Date: ${formatDate(arrivalDate)}
+        Arrival Airport: ${toLocation.value}
+        Stop via ${stopsLocation} 
+      `);
     }
 
     // Show all cards after data is loaded

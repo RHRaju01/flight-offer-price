@@ -146,12 +146,14 @@ document.addEventListener("DOMContentLoaded", function () {
   updateDateInput();
 
   // Calendar navigation
-  prevMonthButton.addEventListener("click", () => {
+  prevMonthButton.addEventListener("click", (e) => {
+    e.stopPropagation();
     selectedDate.setMonth(selectedDate.getMonth() - 1);
     renderCalendar(selectedDate);
   });
 
-  nextMonthButton.addEventListener("click", () => {
+  nextMonthButton.addEventListener("click", (e) => {
+    e.stopPropagation();
     selectedDate.setMonth(selectedDate.getMonth() + 1);
     renderCalendar(selectedDate);
   });

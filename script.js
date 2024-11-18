@@ -2,6 +2,8 @@
 
 export let searchData;
 
+import { flightOffer } from "./flight.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   // Calendar functionality
   const dateInput = document.getElementById("departureDate");
@@ -319,6 +321,8 @@ document.addEventListener("DOMContentLoaded", function () {
       };
 
       console.log("Search Data:", searchData);
+
+      flightOffer();
 
       // Reset form after successful submission
       resetForm();

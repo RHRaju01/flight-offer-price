@@ -1,5 +1,7 @@
 "use strict";
-// Import searchData
+
+export let flightOffer;
+
 import { searchData } from "./script.js";
 // Declare flightResponse globally to access in console
 let flightResponse;
@@ -66,14 +68,9 @@ async function getFlightOffers(accessToken) {
   }
 }
 
-async function main() {
+flightOffer = async function main() {
   const accessToken = await getAccessToken();
   if (accessToken) {
     await getFlightOffers(accessToken);
   }
-}
-
-// Fetches flight information for user queries
-document.querySelector(".search-button").addEventListener("click", async () => {
-  await main();
-});
+};

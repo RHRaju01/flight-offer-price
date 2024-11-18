@@ -1,6 +1,8 @@
 "use strict";
 
 export let searchData;
+export let fromLocation;
+export let toLocation;
 
 import { flightOffer } from "./flight.js";
 
@@ -13,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const prevMonthButton = document.getElementById("prevMonth");
   const nextMonthButton = document.getElementById("nextMonth");
 
-  const fromLocation = document.getElementById("fromLocation");
-  const toLocation = document.getElementById("toLocation");
+  fromLocation = document.getElementById("fromLocation");
+  toLocation = document.getElementById("toLocation");
 
   // Traveller selector
   const travellerButton = document.getElementById("travellerButton");
@@ -276,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Form submission
   document
     .getElementById("flightSearchForm")
-    .addEventListener("submit", function (e) {
+    .addEventListener("submit", async function (e) {
       e.preventDefault();
 
       // Get the input values and trim whitespace
@@ -322,11 +324,9 @@ document.addEventListener("DOMContentLoaded", function () {
         travelClass: selectedCabin ? selectedCabin.value : "ECONOMY",
       };
 
-      console.log("Search Data:", searchData);
+      // console.log("Search Data:", searchData);
 
+      // Fetch flight offers
       flightOffer();
-
-      // Reset form after successful submission
-      resetForm();
     });
 });

@@ -230,7 +230,7 @@ function handleFlightData(flightResponse) {
               <div class="depart">Depart</div>
               <div class="time">${formatTime(departureTime)}</div>
               <div class="date">${formatDate(departureDate)}</div>
-              <div class="location">${fromLocation.value}</div>
+              <div class="location">${fromLocation.value.toUpperCase()}</div>
             </div>
             <div class="duration">
               <div class="total-duration">${formatDuration(
@@ -243,7 +243,7 @@ function handleFlightData(flightResponse) {
               <div class="arrive">Arrive</div>
               <div class="time">${formatTime(arrivalTime)}</div>
               <div class="date">${formatDate(arrivalDate)}</div>
-              <div class="location">${toLocation.value}</div>
+              <div class="location">${toLocation.value.toUpperCase()}</div>
             </div>
           </div>
           <div class="price-section">
@@ -268,11 +268,12 @@ function handleFlightData(flightResponse) {
         Airline name: ${airlineName}
         Departure Time: ${formatTime(departureTime)}
         Departure Date: ${formatDate(departureDate)}
-        Departure Airport: ${toLocation.value}
+        Departure Airport: ${toLocation.value.toUpperCase()}
         Arrival Time: ${formatTime(arrivalTime)}
         Arrival Date: ${formatDate(arrivalDate)}
-        Arrival Airport: ${toLocation.value}
-        Stop via ${stopsLocation} 
+        Arrival Airport: ${toLocation.value.toUpperCase()}
+        Transit: ${stopsLocation} 
+ 
       `);
     }
 

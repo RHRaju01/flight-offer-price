@@ -282,8 +282,8 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
 
       // Get the input values and trim whitespace
-      const fromValue = fromLocation.value.trim();
-      const toValue = toLocation.value.trim();
+      const fromValue = fromLocation.value.trim().toUpperCase();
+      const toValue = toLocation.value.trim().toUpperCase();
       const dateValue = document.getElementById("departureDate").value.trim();
       const selectedCabin = document.querySelector(
         'input[name="cabinClass"]:checked'

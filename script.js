@@ -168,8 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set default values
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  document.getElementById("departureDate").value =
-    tomorrow.toLocaleDateString();
+  document.getElementById("departureDate").value = formatDate(tomorrow);
 
   // Location input handling
   let activeLocationInput = null;

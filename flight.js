@@ -52,6 +52,7 @@ async function getFlightOffers(accessToken) {
           children: searchData.children,
           infants: searchData.infants,
           nonStop: false, // Set to true if you only want direct flights
+          travelClass: searchData.travelClass,
           currencyCode: "BDT",
           //  includedAirlineCodes: "KU",
         },

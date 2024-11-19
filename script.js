@@ -322,9 +322,6 @@ document.addEventListener("DOMContentLoaded", function () {
         infants,
         travelClass: selectedCabin ? selectedCabin.value : "ECONOMY",
       };
-
-      // console.log("Search Data:", searchData);
-
       // Fetch flight offers
       flightOffer();
     });

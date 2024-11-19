@@ -26,7 +26,6 @@ async function getAccessToken() {
     );
 
     const accessToken = responseToken.data.access_token;
-    console.log("Access Token:", accessToken);
     return accessToken;
   } catch (error) {
     console.error(
@@ -59,7 +58,6 @@ async function getFlightOffers(accessToken) {
       }
     );
 
-    // console.log("Flight Offers:", flightResponse.data);
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {
@@ -243,21 +241,6 @@ function handleFlightData(flightResponse) {
 
       // Add the card to the container
       bookingCardsContainer.insertAdjacentHTML("beforeend", cardHTML);
-
-      // Console log for debugging
-      console.log(`Offer ${i + 1}:
-        Price: ${priceCurrency} ${totalPrice}
-        Flight Duration: ${formatDuration(flightDuration)}
-        Airline name: ${airlineName}
-        Departure Time: ${formatTime(departureTime)}
-        Departure Date: ${formatDate(departureDate)}
-        Departure Airport: ${toLocation.value.toUpperCase()}
-        Arrival Time: ${formatTime(arrivalTime)}
-        Arrival Date: ${formatDate(arrivalDate)}
-        Arrival Airport: ${toLocation.value.toUpperCase()}
-        Transit: ${stopsLocation} 
- 
-      `);
     }
 
     // Show all cards after data is loaded

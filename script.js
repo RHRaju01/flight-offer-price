@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
         travelClass: selectedCabin ? selectedCabin.value : "ECONOMY",
       };
 
-      console.log("Search Data:", searchData);
+      // console.log("Search Data:", searchData);
 
       // Fetch flight offers
       flightOffer();

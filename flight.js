@@ -59,7 +59,7 @@ async function getFlightOffers(accessToken) {
       }
     );
 
-    console.log("Flight Offers:", flightResponse.data);
+    // console.log("Flight Offers:", flightResponse.data);
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {
@@ -73,29 +73,12 @@ async function getFlightOffers(accessToken) {
 flightOffer = async function main() {
   const accessToken = await getAccessToken();
   if (accessToken) {
-    const flightData = await getFlightOffers(accessToken); // Renamed to flightData
+    const flightData = await getFlightOffers(accessToken);
     if (flightData) {
       handleFlightData(flightData); // Call function to handle flight data
     }
   }
 };
-
-// Duration, Time and Date formatting
-/* const formatDuration = function convertDurationTo24HourFormat(duration) {
-  // Extract hours and minutes from the duration string
-  const hoursMatch = duration.match(/(\d+)H/);
-  const minutesMatch = duration.match(/(\d+)M/);
-
-  // Get the hours and minutes or default to 0 if not found
-  const hours = hoursMatch ? parseInt(hoursMatch[1], 10) : 0;
-  const minutes = minutesMatch ? parseInt(minutesMatch[1], 10) : 0;
-
-  // Format hours and minutes into 24-hour time (hh:mm)
-  const formattedHours = String(hours).padStart(2, "0");
-  const formattedMinutes = String(minutes).padStart(2, "0");
-
-  return `${formattedHours}:${formattedMinutes}`;
-}; */
 
 const formatDuration = function convertTimeString(isoTimeString) {
   // Extract hours and minutes from the string using regex

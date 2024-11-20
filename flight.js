@@ -199,46 +199,6 @@ function handleFlightData(flightResponse) {
               stopsLocationExtract.length > 1 ? "s" : ""
             } via ${stopsLocationExtract.join(", ")}`;
 
-      /* // Create card HTML
-      const cardHTML = `
-        <div class="card">
-          <svg class="logo" viewBox="0 0 40 40" fill="#ef4444">
-            <path d="M20 0C8.954 0 0 8.954 0 20s8.954 20 20 20 20-8.954 20-20S31.046 0 20 0zm5 30h-10v-4h10v4zm0-8h-10v-4h10v4zm0-8h-10v-4h10v4z" />
-          </svg>
-          <div class="airline">${airlineName}</div>
-          <div class="flight-info">
-            <div>
-              <div class="depart">Depart</div>
-              <div class="time">${formatTime(departureTime)}</div>
-              <div class="date">${formatDate(departureDate)}</div>
-              <div class="location">${fromLocation.value.toUpperCase()}</div>
-            </div>
-            <div class="duration">
-              <div class="total-duration">${formatDuration(
-                flightDuration
-              )}</div>
-              <div class="arrow"></div>
-              <div class="stop-info">${stopsLocation}</div>
-            </div>
-            <div>
-              <div class="arrive">Arrive</div>
-              <div class="time">${formatTime(arrivalTime)}</div>
-              <div class="date">${formatDate(arrivalDate)}</div>
-              <div class="location">${toLocation.value.toUpperCase()}</div>
-            </div>
-          </div>
-          <div class="price-section">
-            <div>
-              <div class="price-label">Price</div>
-              <div class="price">${priceCurrency} ${totalPrice}</div>
-              <div class="refund-status">Partially Refundable</div>
-            </div>
-            <button class="book-button">Book Now</button>
-          </div>
-          <div class="details-button">Flight Details ▼</div>
-        </div>
-      `; */
-
       // Create card HTML
       const cardHTML = `
         <div class="card">

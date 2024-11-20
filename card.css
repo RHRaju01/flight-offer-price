@@ -38,30 +38,6 @@
   align-items: center;
 }
 
-@media (min-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(7, 1fr);
-  }
-}
-
-@media (min-width: 765px) and (max-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 451px) and (max-width: 764px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 450px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .airline-info {
   display: flex;
   flex-direction: column;
@@ -124,24 +100,17 @@
 
 .path-line {
   width: 200px;
-  /* flex-grow: 1; */
   height: 2px;
   background: #007bff;
 }
 
 .stopover {
-  /* color: #2563eb; */
   font-size: 12px;
 }
 
 .book-details {
   text-align: right;
 }
-
-/* .price {
-  color: #2563eb;
-  font-weight: 600;
-} */
 
 .price {
   font-weight: 600;
@@ -274,4 +243,28 @@ td {
 
 .total-row {
   font-weight: 500;
+}
+
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+@media (min-width: 765px) and (max-width: 1199px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 451px) and (max-width: 764px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 450px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

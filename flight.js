@@ -199,7 +199,7 @@ function handleFlightData(flightResponse) {
               stopsLocationExtract.length > 1 ? "s" : ""
             } via ${stopsLocationExtract.join(", ")}`;
 
-      // Create card HTML
+      /* // Create card HTML
       const cardHTML = `
         <div class="card">
           <svg class="logo" viewBox="0 0 40 40" fill="#ef4444">
@@ -237,6 +237,72 @@ function handleFlightData(flightResponse) {
           </div>
           <div class="details-button">Flight Details ▼</div>
         </div>
+      `; */
+
+      // Create card HTML
+      const cardHTML = `
+        <div class="card">
+        <span class="flight-counter">Flight: ${i + 1}</span>
+        <div class="card-header">
+          <div class="grid">
+            <div class="airline-info">
+              <img
+                src="/api/placeholder/120/40"
+                alt="Airline Logo"
+                class="airline-logo"
+              />
+              <span class="airline-name">${airlineName}</span>
+              <span class="refund-status">Partially Refundable</span>
+            </div>
+
+            <div class="time-info">
+              <span class="description">Depart</span>
+              <span class="time">${formatTime(departureTime)}</span>
+              <span class="date">${formatDate(departureDate)}</span>
+              <span class="airport">${fromLocation.value.toUpperCase()}</span>
+            </div>
+
+            <div class="duration">
+              <div class="duration-text">${formatDuration(flightDuration)}</div>
+              <div class="flight-path">
+                <div class="path-line"></div>
+              </div>
+              <span class="stopover">${stopsLocation}</span>
+            </div>
+
+            <div class="time-info">
+              <span class="description">Arrive</span>
+              <span class="time">${formatTime(arrivalTime)}</span>
+              <span class="date">${formatDate(arrivalDate)}</span>
+              <span class="airport">${toLocation.value.toUpperCase()}</span>
+            </div>
+
+            <div class="price">
+              <span class="description">Price</span>
+              <span class="price">${priceCurrency} ${totalPrice}</span>
+            </div>
+
+            <div class="book-details">
+              <button class="book-button">Book Now</button>
+              <button class="details-button">
+                Flight Details
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       `;
 
       // Add the card to the container

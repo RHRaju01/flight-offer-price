@@ -370,6 +370,13 @@
   }
 }
 
+#message {
+  margin: 10px 0px;
+  font-size: 18px;
+  display: none;
+  text-align: center;
+}
+
 @media screen and (max-width: 480px) {
   .radio-group {
     flex-direction: column;

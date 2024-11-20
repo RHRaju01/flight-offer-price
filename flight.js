@@ -11,6 +11,11 @@ const clientSecret = "j3lEN0qQAVCJXxOT";
 
 async function getAccessToken() {
   try {
+    const message = document.getElementById("message");
+    message.textContent = "Please wait. Getting flight information...";
+    message.style.color = "#007bff";
+    message.style.display = "block";
+
     const responseToken = await axios.post(
       "https://test.api.amadeus.com/v1/security/oauth2/token",
       new URLSearchParams({
@@ -58,6 +63,20 @@ async function getFlightOffers(accessToken) {
       }
     );
 
+    // Safely check if data exists and is an array
+    const offers = Array.isArray(flightResponse.data?.data)
+      ? flightResponse.data.data
+      : [];
+
+    if (offers.length === 0) {
+      const message = document.getElementById("message");
+      message.textContent = "Sorry, there is no flight available.";
+      message.style.color = "#fe2400";
+      message.style.display = "block";
+    } else {
+      document.getElementById("message").style.display = "none";
+    }
+
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {
@@ -65,6 +84,12 @@ async function getFlightOffers(accessToken) {
       "Error fetching flight offers:",
       error.response ? error.response.data : error.message
     );
+
+    const message = document.getElementById("message");
+    message.textContent =
+      "There was an error getting flight information. Invalid flight query. Please try again with other combination.";
+    message.style.color = "#fe2400";
+    message.style.display = "block";
   }
 }
 

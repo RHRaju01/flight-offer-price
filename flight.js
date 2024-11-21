@@ -75,6 +75,12 @@ async function getFlightOffers(accessToken) {
       message.style.display = "block";
     } else {
       document.getElementById("message").style.display = "none";
+
+      // Dynamically load card.js if offers are available
+      const script = document.createElement("script");
+      script.src = "card.js";
+
+      document.body.appendChild(script);
     }
 
     window.flightResponse = flightResponse.data;
@@ -207,6 +213,8 @@ function handleFlightData(flightResponse) {
       const priceCurrency = flight.price.currency;
       const departureTime = flight.itineraries[0].segments[0].departure.at;
       const departureDate = flight.itineraries[0].segments[0].departure.at;
+      const segments = flight.itineraries[0].segments;
+
       const segmentsArrival = flight.itineraries[0].segments;
       const arrivalTime =
         segmentsArrival[segmentsArrival.length - 1].arrival.at;
@@ -214,6 +222,12 @@ function handleFlightData(flightResponse) {
         segmentsArrival[segmentsArrival.length - 1].arrival.at;
       const flightDuration = flight.itineraries[0].duration;
       const numOfStops = flight.itineraries[0].segments.length;
+      const aircraftCode = segments[0].aircraft.code;
+      const aircraftName = flightDictionaries.aircraft[aircraftCode];
+      const travelerPricings = flight.travelerPricings[0];
+      const cabin = travelerPricings.fareDetailsBySegment[0].cabin;
+      const cClass = travelerPricings.fareDetailsBySegment[0].class;
+      const availableSits = flight.numberOfBookableSeats;
       const stopsLocationExtract = flight.itineraries[0].segments
         .slice(0, -1)
         .map((seg) => seg.arrival.iataCode);
@@ -226,7 +240,8 @@ function handleFlightData(flightResponse) {
 
       // Create card HTML
       const cardHTML = `
-        <div class="card">
+        <!-- Flight Booking Card -->
+      <div class="card">
         <span class="flight-counter">Flight: ${i + 1}</span>
         <div class="card-header">
           <div class="grid">
@@ -285,6 +300,212 @@ function handleFlightData(flightResponse) {
                 </svg>
               </button>
             </div>
+          </div>
+        </div>
+
+        <div class="details-section" style="display: none">
+          <div class="tabs">
+            <button class="tab active" data-tab="flight">Flight Details</button>
+            <button class="tab" data-tab="fare">Fare Summary</button>
+            <button class="tab" data-tab="rules">Fare Rules</button>
+          </div>
+
+          <div id="flightDetails" class="tab-content active">
+            <h3 class="flight-details-header">
+              ${fromLocation.value.toUpperCase()} to ${toLocation.value.toUpperCase()} on ${formatDate(
+        departureDate
+      )}
+            </h3>
+
+            <!-- First Flight -->
+            <div class="flight-info">
+              <img
+                src="/api/placeholder/40/40"
+                alt="Airlines Logo"
+                style="width: 40px"
+              />
+              <div>
+                <div class="flight-number">${airlineName} ${
+        segments[0].carrierCode
+      } | ${segments[0].number}</div>
+                <div class="flight-meta">Aircraft:  ${aircraftName}</div>
+                <div class="flight-meta">Operated by: ${airlineName}</div>
+                <div class="flight-meta">Cabin(Class): ${cabin}(${cClass})</div>
+                <div class="flight-meta">Available seats: ${availableSits}</div>
+              </div>
+            </div>
+
+            <div class="grid">
+              <!-- Flight times and route info -->
+              <div class="time-info">
+                <span class="time">${formatTime(departureTime)}</span>
+                <span class="date">${formatDate(departureDate)}</span>
+                <span class="flight-meta">Terminal ${
+                  segments[0].departure.terminal
+                }</span>
+                <span class="flight-meta">${
+                  segments[0].departure.iataCode
+                }</span>
+                <span class="flight-meta">City, Country</span>
+              </div>
+
+              <div class="duration">
+                <div class="duration-text">${formatDuration(
+                  segments[0].duration
+                )}</div>
+                <div class="path-line"></div>
+              </div>
+
+              <div class="time-info">
+                <span class="time">${formatTime(segments[0].arrival.at)}</span>
+                <span class="date">${formatDate(segments[0].arrival.at)}</span>
+                <span class="flight-meta">Terminal ${
+                  segments[0].arrival.terminal
+                    ? segments[0].arrival.terminal
+                    : "N/A"
+                }</span>
+                <span class="flight-meta">${segments[0].arrival.iataCode}</span>
+                <span class="flight-meta">City, Country</span>
+              </div>
+
+              <div class="baggage-info">
+                <div class="baggage-column">
+                  <h4>Baggage</h4>
+                  <div class="baggage-detail">Adult</div>
+                  <div class="baggage-detail">Children</div>
+                  <div class="baggage-detail">Infant</div>
+                </div>
+                <div class="baggage-column">
+                  <h4>Check In</h4>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                </div>
+                <div class="baggage-column">
+                  <h4>Cabin</h4>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="layover">${"Transit (if any) Duration in X airport"}</div>
+
+            <!-- Second Flight -->
+            <!-- Similar structure as first flight -->
+            <div class="flight-info">
+              <img
+                src="/api/placeholder/40/40"
+                alt="Airlines Logo"
+                style="width: 40px"
+              />
+              <div>
+                <div class="flight-number">Airlines Code | Number</div>
+                <div class="flight-meta">Aircraft: X</div>
+                <div class="flight-meta">Operated by: X</div>
+                <div class="flight-meta">Cabin(Class): X(X)</div>
+                <div class="flight-meta">Available seats: X</div>
+              </div>
+            </div>
+
+            <div class="grid">
+              <!-- Flight times and route info -->
+              <div class="time-info">
+                <span class="time">DepTime</span>
+                <span class="date">DepDate</span>
+                <span class="flight-meta">Terminal X</span>
+                <span class="flight-meta">Airport</span>
+                <span class="flight-meta">City, Country</span>
+              </div>
+
+              <div class="duration">
+                <div class="duration-text">Flight Duration</div>
+                <div class="path-line"></div>
+              </div>
+
+              <div class="time-info">
+                <span class="time">ArrTime</span>
+                <span class="date">ArrDate</span>
+                <span class="flight-meta">Terminal X</span>
+                <span class="flight-meta">Airport</span>
+                <span class="flight-meta">City, Country</span>
+              </div>
+
+              <div class="baggage-info">
+                <div class="baggage-column">
+                  <h4>Baggage</h4>
+                  <div class="baggage-detail">Adult</div>
+                  <div class="baggage-detail">Children</div>
+                  <div class="baggage-detail">Infant</div>
+                </div>
+                <div class="baggage-column">
+                  <h4>Check In</h4>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                </div>
+                <div class="baggage-column">
+                  <h4>Cabin</h4>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                  <div class="baggage-detail">X Kg(s)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="fareSummary" class="tab-content">
+          
+            <div class="fare-breakdown">
+              <h3>Fare breakdown (Not actual data)</h3>
+              <table class="fare-table">
+                <thead>
+                  <tr>
+                    <th>Fare Summary</th>
+                    <th>Base Fare</th>
+                    <th>Taxes + Fees</th>
+                    <th>Per Passenger</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Adult</td>
+                    <td>BDT 1,106,441</td>
+                    <td>BDT 91,288</td>
+                    <td>BDT (1,197,729 x 1)</td>
+                    <td>BDT 1,197,729</td>
+                  </tr>
+                  <tr>
+                    <td>Child</td>
+                    <td>BDT 1,106,441</td>
+                    <td>BDT 91,288</td>
+                    <td>BDT (1,197,729 x 1)</td>
+                    <td>BDT 1,197,729</td>
+                  </tr>
+                  <tr>
+                    <td>Infant</td>
+                    <td>BDT 211,001</td>
+                    <td>BDT 19,147</td>
+                    <td>BDT (230,148 x 1)</td>
+                    <td>BDT 230,148</td>
+                  </tr>
+                  <tr>
+                    <td>Total (3 Travelers)</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>BDT 2,625,606</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="fareRules" class="tab-content">
+            <h3 class="flight-details-header">Fare Rules</h3>
+            <p style="color: #6b7280">Fare rules content would go here...</p>
           </div>
         </div>
       </div>

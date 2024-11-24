@@ -31,7 +31,6 @@ async function getAccessToken() {
     );
 
     const accessToken = responseToken.data.access_token;
-    console.log("Access Token:", accessToken);
     return accessToken;
   } catch (error) {
     console.error(
@@ -80,16 +79,9 @@ async function getFlightOffers(accessToken) {
       // Dynamically load card.js if offers are available
       const script = document.createElement("script");
       script.src = "card.js";
-      script.onload = () => {
-        console.log("card.js has been loaded successfully.");
-      };
-      script.onerror = () => {
-        console.error("Failed to load card.js.");
-      };
       document.body.appendChild(script);
     }
 
-    console.log(`Flight offers: `, flightResponse.data);
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {
@@ -220,13 +212,14 @@ function handleFlightData(flightResponse) {
       // Extract flight data
       const totalPrice = flight.price.grandTotal;
       const priceCurrency = flight.price.currency;
+      const flightDuration = flight.itineraries[0].duration;
       const segments = flight.itineraries[0].segments;
       const firstSegment = segments[0];
       const lastSegment = segments[segments.length - 1];
       const airlineName = flightDictionaries.carriers[firstSegment.carrierCode];
       const availableSits = flight.numberOfBookableSeats;
 
-      // Calculate total duration for all segments
+      /*       // Calculate total duration for all segments
       const totalDuration = segments.reduce((acc, segment) => {
         const duration = segment.duration;
         const hours = parseInt(duration.match(/PT(\d+)H/)?.[1] || 0);
@@ -235,7 +228,7 @@ function handleFlightData(flightResponse) {
       }, 0);
       const flightDuration = `PT${Math.floor(totalDuration / 60)}H${
         totalDuration % 60
-      }M`;
+      }M`; */
 
       // Calculate stops information
       const stopsLocationExtract = segments

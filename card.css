@@ -208,12 +208,6 @@
   padding: 16px 0;
 }
 
-.baggage-info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
 .baggage-column h4 {
   font-weight: 500;
   margin-bottom: 8px;

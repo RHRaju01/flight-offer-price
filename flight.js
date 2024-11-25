@@ -31,6 +31,7 @@ async function getAccessToken() {
     );
 
     const accessToken = responseToken.data.access_token;
+    console.log("Access Token:", accessToken);
     return accessToken;
   } catch (error) {
     console.error(
@@ -82,6 +83,7 @@ async function getFlightOffers(accessToken) {
       document.body.appendChild(script);
     }
 
+    console.log(`Flight offers: `, flightResponse.data);
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {
@@ -205,9 +207,60 @@ function handleFlightData(flightResponse) {
   // Clear any existing cards
   bookingCardsContainer.innerHTML = "";
 
+  // Function to process traveler types and baggage information
+  function processTravelerInfo(flight) {
+    const travelerTypes = new Set();
+    const travelerInfo = {};
+    flight.travelerPricings.forEach((traveler) => {
+      let travelerType;
+      switch (traveler.travelerType) {
+        case "ADULT":
+          travelerType = "Adult";
+          break;
+        case "CHILD":
+          travelerType = "Children";
+          break;
+        case "HELD_INFANT":
+          travelerType = "Infant";
+          break;
+        default:
+          travelerType = traveler.travelerType;
+      }
+
+      // Store traveler type only once
+      if (!travelerTypes.has(travelerType)) {
+        travelerTypes.add(travelerType);
+        const bagageInfo = traveler.fareDetailsBySegment.map((segment) => {
+          let checkedBags = "--";
+          if (segment.includedCheckedBags) {
+            if (segment.includedCheckedBags.quantity !== undefined) {
+              const quantity = segment.includedCheckedBags.quantity;
+              checkedBags = `${quantity} PC${quantity > 1 ? "s" : ""}`;
+            } else if (segment.includedCheckedBags.weight !== undefined) {
+              const { weight, weightUnit } = segment.includedCheckedBags;
+              checkedBags = `${weight} ${weightUnit}`;
+            }
+          }
+          return {
+            traveler: travelerType,
+
+            checkedBags: checkedBags,
+
+            cabin: "7 KG",
+          };
+        });
+        travelerInfo[travelerType] = bagageInfo[0];
+      }
+    });
+    return travelerInfo;
+  }
+
   if (flightData.length > 0) {
     for (let i = 0; i < flightData.length; i++) {
       const flight = flightData[i];
+
+      // Process traveler information
+      const travelerInfo = processTravelerInfo(flight);
 
       // Extract flight data
       const totalPrice = flight.price.grandTotal;
@@ -219,17 +272,6 @@ function handleFlightData(flightResponse) {
       const airlineName = flightDictionaries.carriers[firstSegment.carrierCode];
       const availableSits = flight.numberOfBookableSeats;
       const locations = flightDictionaries.locations;
-
-      /*       // Calculate total duration for all segments
-      const totalDuration = segments.reduce((acc, segment) => {
-        const duration = segment.duration;
-        const hours = parseInt(duration.match(/PT(\d+)H/)?.[1] || 0);
-        const minutes = parseInt(duration.match(/(\d+)M/)?.[1] || 0);
-        return acc + hours * 60 + minutes;
-      }, 0);
-      const flightDuration = `PT${Math.floor(totalDuration / 60)}H${
-        totalDuration % 60
-      }M`; */
 
       // Calculate stops information
       const stopsLocationExtract = segments
@@ -251,6 +293,56 @@ function handleFlightData(flightResponse) {
         const travelerPricings = flight.travelerPricings[0];
         const cabin = travelerPricings.fareDetailsBySegment[index].cabin;
         const cClass = travelerPricings.fareDetailsBySegment[index].class;
+
+        // Generate baggage columns dynamically
+
+        const generateBaggageColumns = () => {
+          // Determine the maximum number of traveler types
+          const travelerTypes = Object.keys(travelerInfo);
+          const maxTravelers = travelerTypes.length;
+
+          return `
+                <div class="baggage-column">
+                  <h4>Baggage</h4>
+                  ${travelerTypes
+                    .map(
+                      (type) =>
+                        `<div class="baggage-detail traveler">${type}</div>`
+                    )
+                    .join("")}
+                  ${Array(Math.max(0, 3 - maxTravelers))
+                    .fill()
+                    .map(() => `<div class="baggage-detail traveler">--</div>`)
+                    .join("")}
+                </div>
+                <div class="baggage-column">
+                  <h4>Check In</h4>
+                  ${travelerTypes
+                    .map(
+                      (type) =>
+                        `<div class="baggage-detail check">${travelerInfo[type].checkedBags}</div>`
+                    )
+                    .join("")}
+                  ${Array(Math.max(0, 3 - maxTravelers))
+                    .fill()
+                    .map(() => `<div class="baggage-detail check">--</div>`)
+                    .join("")}
+                </div>
+                <div class="baggage-column">
+                  <h4>Cabin</h4>
+                  ${travelerTypes
+                    .map(
+                      (type) =>
+                        `<div class="baggage-detail cabin">${travelerInfo[type].cabin}</div>`
+                    )
+                    .join("")}
+                  ${Array(Math.max(0, 3 - maxTravelers))
+                    .fill()
+                    .map(() => `<div class="baggage-detail cabin">--</div>`)
+                    .join("")}
+                </div>
+  `;
+        };
 
         return `
         <!-- Flight ${index + 1} -->
@@ -301,28 +393,8 @@ function handleFlightData(flightResponse) {
             <span class="flight-meta">Country: ${
               locations[segment.arrival.iataCode].countryCode
             }</span>
-          </div>
-
-          <div class="baggage-info">
-            <div class="baggage-column">
-              <h4>Baggage</h4>
-              <div class="baggage-detail">Adult</div>
-              <div class="baggage-detail">Children</div>
-              <div class="baggage-detail">Infant</div>
             </div>
-            <div class="baggage-column">
-              <h4>Check In</h4>
-              <div class="baggage-detail">X Kg(s)</div>
-              <div class="baggage-detail">X Kg(s)</div>
-              <div class="baggage-detail">X Kg(s)</div>
-            </div>
-            <div class="baggage-column">
-              <h4>Cabin</h4>
-              <div class="baggage-detail">X Kg(s)</div>
-              <div class="baggage-detail">X Kg(s)</div>
-              <div class="baggage-detail">X Kg(s)</div>
-            </div>
-          </div>
+            ${generateBaggageColumns()}
         </div>`;
       };
 

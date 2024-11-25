@@ -31,7 +31,6 @@ async function getAccessToken() {
     );
 
     const accessToken = responseToken.data.access_token;
-    console.log("Access Token:", accessToken);
     return accessToken;
   } catch (error) {
     console.error(
@@ -83,7 +82,6 @@ async function getFlightOffers(accessToken) {
       document.body.appendChild(script);
     }
 
-    console.log(`Flight offers: `, flightResponse.data);
     window.flightResponse = flightResponse.data;
     return flightResponse.data; // Store response data here
   } catch (error) {

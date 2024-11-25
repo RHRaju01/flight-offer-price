@@ -272,7 +272,7 @@ function handleFlightData(flightResponse) {
             <span class="time">${formatTime(segment.departure.at)}</span>
             <span class="date">${formatDate(segment.departure.at)}</span>
             <span class="flight-meta">Terminal ${
-              segment.departure.terminal
+              segment.departure.terminal ? segment.departure.terminal : "N/A"
             }</span>
             <span class="flight-meta">${segment.departure.iataCode}</span>
             <span class="flight-meta">City: ${

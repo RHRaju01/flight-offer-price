@@ -218,6 +218,7 @@ function handleFlightData(flightResponse) {
       const lastSegment = segments[segments.length - 1];
       const airlineName = flightDictionaries.carriers[firstSegment.carrierCode];
       const availableSits = flight.numberOfBookableSeats;
+      const locations = flightDictionaries.locations;
 
       /*       // Calculate total duration for all segments
       const totalDuration = segments.reduce((acc, segment) => {
@@ -274,7 +275,12 @@ function handleFlightData(flightResponse) {
               segment.departure.terminal
             }</span>
             <span class="flight-meta">${segment.departure.iataCode}</span>
-            <span class="flight-meta">City, Country</span>
+            <span class="flight-meta">City: ${
+              locations[segment.departure.iataCode].cityCode
+            }</span>
+            <span class="flight-meta">Country: ${
+              locations[segment.departure.iataCode].countryCode
+            }</span>
           </div>
 
           <div class="duration">
@@ -289,7 +295,12 @@ function handleFlightData(flightResponse) {
               segment.arrival.terminal ? segment.arrival.terminal : "N/A"
             }</span>
             <span class="flight-meta">${segment.arrival.iataCode}</span>
-            <span class="flight-meta">City, Country</span>
+            <span class="flight-meta">City: ${
+              locations[segment.arrival.iataCode].cityCode
+            }</span>
+            <span class="flight-meta">Country: ${
+              locations[segment.arrival.iataCode].countryCode
+            }</span>
           </div>
 
           <div class="baggage-info">

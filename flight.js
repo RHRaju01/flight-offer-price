@@ -58,7 +58,7 @@ async function getFlightOffers(accessToken) {
           nonStop: false, // Set to true if you only want direct flights
           travelClass: searchData.travelClass,
           currencyCode: "BDT",
-          //  includedAirlineCodes: "KU",
+          // includedAirlineCodes: "LH",
         },
       }
     );
@@ -253,6 +253,104 @@ function handleFlightData(flightResponse) {
     return travelerInfo;
   }
 
+  function generateFareSummaryTable(flight) {
+    // Process traveler types and their counts
+    const travelerTypeCounts = {};
+    const travelerPrices = {};
+    const travelerOrder = ["ADULT", "CHILD", "HELD_INFANT"];
+
+    // Count travelers and collect prices
+    flight.travelerPricings.forEach((traveler) => {
+      const type = traveler.travelerType;
+      travelerTypeCounts[type] = (travelerTypeCounts[type] || 0) + 1;
+      travelerPrices[type] = traveler.price;
+    });
+
+    // Format number with comma and optional decimal removal
+    const formatNumber = (num) => {
+      const parts = num.toString().split(".");
+      const formatted = Number(parts[0]).toLocaleString("en-US");
+      return parts[1] && Number(parts[1]) !== 0
+        ? `${formatted}.${parts[1]}`
+        : formatted;
+    };
+
+    // Create table rows
+    let tableRows = "";
+    let totalFare = 0;
+    const totalTravelers = Object.values(travelerTypeCounts).reduce(
+      (a, b) => a + b,
+      0
+    );
+
+    travelerOrder.forEach((type) => {
+      if (travelerTypeCounts[type]) {
+        const count = travelerTypeCounts[type];
+        const price = travelerPrices[type];
+        const baseFare = price.base;
+        const taxesFees = price.total - price.base;
+        const perPassengerTotal = price.total * count;
+
+        // Map traveler type to readable string
+        const travelerTypeLabel = {
+          ADULT: "Adult",
+          CHILD: "Children",
+          HELD_INFANT: "Infant",
+        }[type];
+
+        tableRows += `
+        <tr>
+          <td>${travelerTypeLabel}</td>
+          <td>${price.currency} ${formatNumber(baseFare)}</td>
+          <td>${price.currency} ${formatNumber(taxesFees)}</td>
+          <td>${price.currency} (${formatNumber(price.total)} x ${count})</td>
+          <td>${price.currency} ${formatNumber(perPassengerTotal)}</td>
+        </tr>
+      `;
+
+        totalFare += perPassengerTotal;
+      }
+    });
+
+    // Total row
+    tableRows += `
+    <tr>
+      <td>Total (${totalTravelers} Traveler${
+      totalTravelers > 1 ? "s" : ""
+    })</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>${flight.travelerPricings[0].price.currency} ${formatNumber(
+      totalFare
+    )}</td>
+    </tr>
+  `;
+
+    // Full table HTML
+    const fareTableHTML = `
+    <div class="fare-breakdown">
+      <h3>Fare breakdown</h3>
+      <table class="fare-table">
+        <thead>
+          <tr>
+            <th>Fare Summary</th>
+            <th>Base Fare</th>
+            <th>Taxes + Fees</th>
+            <th>Per Passenger</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableRows}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+    return fareTableHTML;
+  }
+
   if (flightData.length > 0) {
     for (let i = 0; i < flightData.length; i++) {
       const flight = flightData[i];
@@ -293,53 +391,51 @@ function handleFlightData(flightResponse) {
         const cClass = travelerPricings.fareDetailsBySegment[index].class;
 
         // Generate baggage columns dynamically
-
         const generateBaggageColumns = () => {
           // Determine the maximum number of traveler types
           const travelerTypes = Object.keys(travelerInfo);
           const maxTravelers = travelerTypes.length;
 
           return `
-                <div class="baggage-column">
-                  <h4>Baggage</h4>
-                  ${travelerTypes
-                    .map(
-                      (type) =>
-                        `<div class="baggage-detail traveler">${type}</div>`
-                    )
-                    .join("")}
-                  ${Array(Math.max(0, 3 - maxTravelers))
-                    .fill()
-                    .map(() => `<div class="baggage-detail traveler">--</div>`)
-                    .join("")}
-                </div>
-                <div class="baggage-column">
-                  <h4>Check In</h4>
-                  ${travelerTypes
-                    .map(
-                      (type) =>
-                        `<div class="baggage-detail check">${travelerInfo[type].checkedBags}</div>`
-                    )
-                    .join("")}
-                  ${Array(Math.max(0, 3 - maxTravelers))
-                    .fill()
-                    .map(() => `<div class="baggage-detail check">--</div>`)
-                    .join("")}
-                </div>
-                <div class="baggage-column">
-                  <h4>Cabin</h4>
-                  ${travelerTypes
-                    .map(
-                      (type) =>
-                        `<div class="baggage-detail cabin">${travelerInfo[type].cabin}</div>`
-                    )
-                    .join("")}
-                  ${Array(Math.max(0, 3 - maxTravelers))
-                    .fill()
-                    .map(() => `<div class="baggage-detail cabin">--</div>`)
-                    .join("")}
-                </div>
-  `;
+          <div class="baggage-column">
+            <h4>Baggage</h4>
+            ${travelerTypes
+              .map(
+                (type) => `<div class="baggage-detail traveler">${type}</div>`
+              )
+              .join("")}
+            ${Array(Math.max(0, 3 - maxTravelers))
+              .fill()
+              .map(() => `<div class="baggage-detail traveler">--</div>`)
+              .join("")}
+          </div>
+          <div class="baggage-column">
+            <h4>Check In</h4>
+            ${travelerTypes
+              .map(
+                (type) =>
+                  `<div class="baggage-detail check">${travelerInfo[type].checkedBags}</div>`
+              )
+              .join("")}
+            ${Array(Math.max(0, 3 - maxTravelers))
+              .fill()
+              .map(() => `<div class="baggage-detail check">--</div>`)
+              .join("")}
+          </div>
+          <div class="baggage-column">
+            <h4>Cabin</h4>
+            ${travelerTypes
+              .map(
+                (type) =>
+                  `<div class="baggage-detail cabin">${travelerInfo[type].cabin}</div>`
+              )
+              .join("")}
+            ${Array(Math.max(0, 3 - maxTravelers))
+              .fill()
+              .map(() => `<div class="baggage-detail cabin">--</div>`)
+              .join("")}
+          </div>
+          `;
         };
 
         return `
@@ -487,17 +583,20 @@ function handleFlightData(flightResponse) {
 
           <div id="flightDetails" class="tab-content active">
             <h3 class="flight-details-header">
-              ${firstSegment.departure.iataCode} to ${
+                    ${firstSegment.departure.iataCode} to ${
         lastSegment.arrival.iataCode
       } on ${formatDate(firstSegment.departure.at)}
-            </h3>
+                  </h3>
 
-            ${generateAllFlightSegmentsHTML()}
+                  ${generateAllFlightSegmentsHTML()}
 
             <!-- Other tabs -->
-            <div id="fareSummary" class="tab-content"></div>
-            <div id="fareRules" class="tab-content"></div>
           </div>
+          <div id="fareSummary" class="tab-content">
+            <!-- Fare Summary Table Here -->
+             ${generateFareSummaryTable(flight)}
+          </div>
+          <div id="fareRules" class="tab-content"></div>
         </div>
       </div>`;
 

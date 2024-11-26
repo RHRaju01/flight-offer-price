@@ -266,13 +266,23 @@ function handleFlightData(flightResponse) {
       travelerPrices[type] = traveler.price;
     });
 
-    // Format number with comma and optional decimal removal
+    // Format number with comma and omit decimal point if it's .00
     const formatNumber = (num) => {
-      const parts = num.toString().split(".");
-      const formatted = Number(parts[0]).toLocaleString("en-US");
-      return parts[1] && Number(parts[1]) !== 0
-        ? `${formatted}.${parts[1]}`
-        : formatted;
+      // Convert number to a fixed decimal format
+      const formattedNumber = parseFloat(num).toFixed(2);
+
+      // Split the formatted number into integer and decimal parts
+      const parts = formattedNumber.split(".");
+      const integerPart = Number(parts[0]).toLocaleString("en-US");
+
+      // Check if the decimal part is zero
+      if (parts[1] === "00") {
+        // Return only the integer part if decimal is zero
+        return integerPart;
+      } else {
+        // Return the formatted number with two decimal places
+        return `${integerPart}.${parts[1]}`;
+      }
     };
 
     // Create table rows

@@ -310,11 +310,19 @@ function handleFlightData(flightResponse) {
 
         tableRows += `
         <tr>
-          <td>${travelerTypeLabel}</td>
-          <td>${price.currency} ${formatNumber(baseFare)}</td>
-          <td>${price.currency} ${formatNumber(taxesFees)}</td>
-          <td>${price.currency} (${formatNumber(price.total)} x ${count})</td>
-          <td>${price.currency} ${formatNumber(perPassengerTotal)}</td>
+          <td data-label="Fare Summary">${travelerTypeLabel}</td>
+          <td data-label="Base Fare">${price.currency} ${formatNumber(
+          baseFare
+        )}</td>
+          <td data-label="Taxes + Fees">${price.currency} ${formatNumber(
+          taxesFees
+        )}</td>
+          <td data-label="Per Passenger">${price.currency} (${formatNumber(
+          price.total
+        )} x ${count})</td>
+          <td data-label="Total">${price.currency} ${formatNumber(
+          perPassengerTotal
+        )}</td>
         </tr>
       `;
 
@@ -325,15 +333,15 @@ function handleFlightData(flightResponse) {
     // Total row
     tableRows += `
     <tr>
-      <td>Total (${totalTravelers} Traveler${
+      <td data-label="Summary">Total (${totalTravelers} Traveler${
       totalTravelers > 1 ? "s" : ""
     })</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>${flight.travelerPricings[0].price.currency} ${formatNumber(
-      totalFare
-    )}</td>
+      <td data-label="Grand Total">${
+        flight.travelerPricings[0].price.currency
+      } ${formatNumber(totalFare)}</td>
     </tr>
   `;
 

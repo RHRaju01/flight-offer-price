@@ -273,6 +273,57 @@
   color: #7c8db0;
 }
 
+/* Responsive table */
+.fare-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media screen and (max-width: 720px) {
+  .fare-table thead {
+    display: none; /* Hide thead on mobile */
+  }
+
+  .fare-table tr:last-child td:empty {
+    display: none; /* Hide empty cells in the last row */
+  }
+
+  .fare-table tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+  .fare-table tr td {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+  }
+
+  .fare-table td:first-child {
+    grid-column: 1 / -1; /* Full width for first row */
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .fare-table td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .fare-table td:last-child {
+    text-align: left;
+    justify-self: start;
+  }
+}
+
 /* Responsive Styles */
 @media (min-width: 1100px) {
   .grid {

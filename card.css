@@ -274,10 +274,6 @@
 }
 
 /* Responsive table */
-.fare-table {
-  width: 100%;
-  border-collapse: collapse;
-}
 
 @media screen and (max-width: 720px) {
   .fare-table thead {

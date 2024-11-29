@@ -386,6 +386,7 @@ function handleFlightData(flightResponse) {
       const airlineName = flightDictionaries.carriers[firstSegment.carrierCode];
       const availableSits = flight.numberOfBookableSeats;
       const locations = flightDictionaries.locations;
+      const carrier = flight.itineraries[0].segments[0].carrierCode;
 
       // Calculate stops information
       const stopsLocationExtract = segments
@@ -459,7 +460,7 @@ function handleFlightData(flightResponse) {
         return `
         <!-- Flight ${index + 1} -->
         <div class="flight-info">
-          <img src="/api/placeholder/40/40" alt="Airlines Logo" style="width: 40px" />
+          <img src="https://fe-pub.s3.ap-southeast-1.amazonaws.com/airlineimages/128/${carrierCode}.png" alt="Airlines Logo" style="width: 50px; height: 50px" />
           <div>
             <div class="flight-number">${airlineName} ${carrierCode} | ${
           segment.number
@@ -548,7 +549,7 @@ function handleFlightData(flightResponse) {
         <div class="card-header">
           <div class="grid">
             <div class="airline-info">
-              <img src="/api/placeholder/120/40" alt="Airline Logo" class="airline-logo" />
+              <img src="https://fe-pub.s3.ap-southeast-1.amazonaws.com/airlineimages/128/${carrier}.png" alt="Airlines Logo" style="width: 80px; height: 80px" />
               <span class="airline-name">${airlineName}</span>
               <span class="refund-status">Partially Refundable</span>
             </div>
